@@ -1,42 +1,66 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
 import React from "react"
+import { Link } from "gatsby"
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
+/** @jsx jsx */
+import { Container, jsx } from "theme-ui"
+
+import { constants } from '../gatsby-plugin-theme-ui/tokens'
+
+export const Header = () => {
+  return (
+    <header
+      sx={{
+        height: constants.headerHeight,
+        display: `flex`,
+        alignItems: `center`,
       }}
     >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
+      <Container
+        sx={{
+          px: 4,
+          display: `flex`,
+          justifyContent: `space-between`,
+        }}
+      >
+        <div>
+          <Link
+            to="/"
+            sx={{
+              textDecoration: `none`,
+              fontSize: 2,
+              fontWeight: `bold`,
+              color: `inherit`,
+            }}
+          >
+            WebDevPhotos
+          </Link>
+        </div>
+        <div>
+          <Link
+            to="/"
+            sx={{
+              textDecoration: `none`,
+              fontSize: 2,
+              fontWeight: `bold`,
+              color: `inherit`,
+            }}
+          >
+            About
+          </Link>
+          <Link
+            to="/"
+            sx={{
+              ml: 4,
+              textDecoration: `none`,
+              fontSize: 2,
+              fontWeight: `bold`,
+              color: `inherit`,
+            }}
+          >
+            Suggest a photo
+          </Link>
+        </div>
+      </Container>
+    </header>
+  );
 }
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
-
-export default Header
