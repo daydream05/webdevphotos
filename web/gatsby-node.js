@@ -68,6 +68,7 @@ const getUnsplashCollections = async (gatsbyFunctions, collections) => {
           ...nodeData,
           id: createNodeId(JSON.stringify(coll.id)),
           collection_id: collection,
+          parent: '__SOURCE__',
           children: [],
           internal: {
             type: 'UnsplashCollection',
