@@ -11,6 +11,4 @@ const theme =  merge(future, {
   constants
 })
 
-console.log(theme)
-
 export default theme

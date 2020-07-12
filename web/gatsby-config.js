@@ -36,7 +36,7 @@ module.exports = {
       },
     },
     {
-      resolve: "gatsby-source-sanity",
+      resolve: 'gatsby-source-sanity',
       options: {
         projectId,
         dataset,
@@ -45,12 +45,12 @@ module.exports = {
         token: process.env.SANITY_TOKEN,
       },
     },
-    "gatsby-plugin-theme-ui",
+    'gatsby-plugin-theme-ui',
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
   ],
-};
+}
 
 /**
  * We're requiring a file in the studio folder to make the monorepo
