@@ -7,7 +7,8 @@ export const HeroBasic = () => {
   return (
     <section
       sx={{
-        py: 6,
+        pt: 6,
+        pb: 4,
       }}
     >
       <Container

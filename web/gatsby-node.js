@@ -23,7 +23,7 @@ const getUnsplashPhotos = async (gatsbyFunctions, collections) => {
 
   const photosPromises = collections.map((collection) => {
     return unsplash.collections
-      .getCollectionPhotos(collection, 1, 10)
+      .getCollectionPhotos(collection, 1, 30)
       .then(toJson)
       .then((photos) => {
         photos.map((photo) => {
@@ -66,7 +66,7 @@ const getUnsplashCollections = async (gatsbyFunctions, collections) => {
         }
         const newNode = {
           ...nodeData,
-          id: createNodeId(JSON.stringify(coll.id)),
+          id: createNodeId(collection),
           collection_id: collection,
           parent: '__SOURCE__',
           children: [],
@@ -87,6 +87,7 @@ const getUnsplashCollections = async (gatsbyFunctions, collections) => {
 
 exports.sourceNodes = async (gatsbyFunctions) => {
   const collections = [`5184832`, `1978309`, `144033`]
+  // const collections = [`8647859`]
 
   await getUnsplashPhotos(gatsbyFunctions, collections)
   await getUnsplashCollections(gatsbyFunctions, collections)
