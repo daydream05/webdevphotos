@@ -6,15 +6,24 @@ import { MdArrowDownward } from 'react-icons/md'
 import { Container, jsx, Styled } from "theme-ui"
 import { mediaQueries, breakpoints } from '../gatsby-plugin-theme-ui/tokens'
 
-export const Gallery = ({ photos }) => {
+export const Gallery = ({ photos, onClick }) => {
   return (
     <section>
       <ReactPhotoGallery
+        onClick={onClick}
         photos={photos}
         margin={8}
-        renderImage={({ index, left, top, key, photo, margin }) => {
+        renderImage={({ index, left, top, key, photo, margin, onClick }) => {
           return (
-            <Photo key={key} index={index} photo={photo} left={left} top={top} margin={margin} />
+            <Photo
+              key={key}
+              index={index}
+              photo={photo}
+              left={left}
+              top={top}
+              margin={margin}
+              onClick={onClick}
+            />
           )
         }}
       />
@@ -22,11 +31,19 @@ export const Gallery = ({ photos }) => {
   )
 }
 
-const Photo = ({ photo, margin, index, top, left }) => {
+const Photo = ({ photo, margin, index, top, left, onClick }) => {
+
+  const handleClick = (event) => {
+    console.log(onClick)
+    onClick(event, { photo, index })
+  }
+
   return (
     <figure
       tabIndex="0"
+      onClick={handleClick}
       sx={{
+        cursor: `pointer`,
         margin: `${margin}px`,
         height: photo.height,
         width: photo.width,

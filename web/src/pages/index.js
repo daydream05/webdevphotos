@@ -1,5 +1,6 @@
-import React from "react"
+import React, { useState, useCallback, useEffect } from "react";
 import { graphql } from 'gatsby'
+import Carousel, { Modal, ModalGateway } from 'react-images'
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -8,6 +9,22 @@ import { CollectionGrid } from "../components/collection-grid"
 import { Gallery } from '../components/gallery'
 
 const IndexPage = ({ data }) => {
+  const [currentImage, setCurrentImage] = useState(0)
+  const [viewerIsOpen, setViewerIsOpen] = useState(false)
+
+  const openLightbox = useCallback((event, { photo, index }) => {
+    setCurrentImage(index)
+    setViewerIsOpen(true)
+  }, [])
+
+  console.log(currentImage)
+  console.log(viewerIsOpen)
+
+  const closeLightbox = () => {
+    setCurrentImage(0)
+    setViewerIsOpen(false)
+  }
+
   const { allUnsplashPhoto, allUnsplashCollection } = data
 
   const collections = allUnsplashCollection.edges.map(({ node }) => {
@@ -34,6 +51,7 @@ const IndexPage = ({ data }) => {
     return {
       src: node.urls.small,
       alt: node.alt_description,
+      urls: node.urls,
       width: node.width,
       height: node.height,
       full: node.urls.full,
@@ -48,7 +66,20 @@ const IndexPage = ({ data }) => {
       <SEO title="Home" />
       <HeroBasic />
       <CollectionGrid collections={collections} />
-      <Gallery photos={photos} />
+      <Gallery photos={photos} onClick={openLightbox} />
+      <ModalGateway>
+        {viewerIsOpen ? (
+          <Modal onClose={closeLightbox}>
+            <Carousel
+              currentIndex={currentImage}
+              views={photos.map((x) => ({
+                ...x,
+                src: x.urls.regular,
+              }))}
+            />
+          </Modal>
+        ) : null}
+      </ModalGateway>
     </Layout>
   )
 }
