@@ -70,13 +70,26 @@ const IndexPage = ({ data }) => {
       <Gallery photos={photos} onClick={openLightbox} />
       <ModalGateway>
         {viewerIsOpen ? (
-          <Modal onClose={closeLightbox}>
+          <Modal
+            onClose={closeLightbox}
+          >
             <Carousel
               currentIndex={currentImage}
               views={photos.map((x) => ({
-                ...x,
-                src: x.urls.regular,
+                caption: x.alt,
+                source: {
+                  download: x.downloadUrl,
+                  regular: x.urls.regular,
+                  fullscreen: x.urls.regular,
+                },
               }))}
+              styles={{
+                view: (base) => ({
+                  ...base,
+                  height: `80vh`,
+                  display: `flex `,
+                }),
+              }}
             />
           </Modal>
         ) : null}
