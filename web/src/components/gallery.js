@@ -1,4 +1,5 @@
 import React from 'react'
+import Img from 'gatsby-image'
 import ReactPhotoGallery from 'react-photo-gallery'
 import { MdArrowDownward } from 'react-icons/md'
 
@@ -8,25 +9,39 @@ import { mediaQueries, breakpoints } from '../gatsby-plugin-theme-ui/tokens'
 
 export const Gallery = ({ photos, onClick }) => {
   return (
-    <section>
-      <ReactPhotoGallery
-        onClick={onClick}
-        photos={photos}
-        margin={8}
-        renderImage={({ index, left, top, key, photo, margin, onClick }) => {
-          return (
-            <Photo
-              key={key}
-              index={index}
-              photo={photo}
-              left={left}
-              top={top}
-              margin={margin}
-              onClick={onClick}
-            />
-          )
+    <section
+      sx={{
+        minHeight: `50vh`,
+        maxWidth: `1440px`,
+        margin: `0 auto`,
+      }}
+    >
+      <div
+        sx={{
+          [mediaQueries.xl]: {
+            mx: -3,
+          },
         }}
-      />
+      >
+        <ReactPhotoGallery
+          onClick={onClick}
+          photos={photos}
+          margin={8}
+          renderImage={({ index, left, top, key, photo, margin, onClick }) => {
+            return (
+              <Photo
+                key={key}
+                index={index}
+                photo={photo}
+                left={left}
+                top={top}
+                margin={margin}
+                onClick={onClick}
+              />
+            )
+          }}
+        />
+      </div>
     </section>
   )
 }
@@ -34,62 +49,66 @@ export const Gallery = ({ photos, onClick }) => {
 const Photo = ({ photo, margin, index, top, left, onClick }) => {
 
   const handleClick = (event) => {
-    console.log(onClick)
     onClick(event, { photo, index })
   }
 
   return (
     <figure
-      tabIndex="0"
-      onClick={handleClick}
       sx={{
         cursor: `pointer`,
         margin: `${margin}px`,
         height: photo.height,
         width: photo.width,
         position: `relative`,
-        '::before': {
-          transition: `opacity .2s ease-in-out`,
-          content: `""`,
-          position: `absolute`,
-          top: 0,
-          left: 0,
-          width: `100%`,
-          height: `100%`,
-          backgroundColor: `black`,
-          opacity: 0,
-        },
-        ':hover, :focus': {
+        ':hover, :focus, :focus-within': {
           '.download': {
             visibility: `visible`,
             opacity: 1,
           },
-          '::before': {
-            transition: `opacity .2s ease-in-out`,
-            opacity: 0.4,
+          '.button': {
+            '::after': {
+              transition: `opacity .2s ease-in-out`,
+              opacity: 0.4,
+            },
           },
         },
       }}
     >
-      <img
-        src={photo.src}
-        alt={photo.alt}
+      <button
+        onClick={handleClick}
+        className="button"
         sx={{
-          display: `block`,
+          padding: 0,
+          border: `none`,
+          width: `100%`,
           height: `100%`,
+          cursor: `pointer`,
+          '::after': {
+            transition: `opacity .2s ease-in-out`,
+            content: `""`,
+            position: `absolute`,
+            top: 0,
+            left: 0,
+            width: `100%`,
+            height: `100%`,
+            backgroundColor: `black`,
+            opacity: 0,
+          },
         }}
-      />
+      >
+        <Img fluid={photo.fluid} alt={photo.alt} onClick={handleClick} />
+      </button>
       <div
         className="download"
-        tabIndex="0"
         sx={{
           position: `absolute`,
           width: `100%`,
           bottom: 3,
           right: 0,
           opacity: 0,
+          zIndex: 2,
           transition: `opacity .2s ease-in-out,visibility .1s ease-in-out`,
-          ':focus': {
+          ':focus, :focus-within': {
             visibility: 'visible',
             opacity: 1,
             transition: `opacity .2s ease-in-out,visibility .1s ease-in-out`,
@@ -102,12 +121,12 @@ const Photo = ({ photo, margin, index, top, left, onClick }) => {
             justifyContent: `space-between`,
             width: `100%`,
             px: 3,
-            zIndex: 1,
           }}
         >
           <span
             sx={{
               color: `white`,
+              flex: 1,
             }}
           >
             {photo.collectionTitle}

@@ -55,6 +55,7 @@ const IndexPage = ({ data }) => {
       width: node.width,
       height: node.height,
       full: node.urls.full,
+      fluid: node.localImage.childImageSharp.fluid,
       fileName: generateFileName(node),
       downloadUrl: generateDownloadUrl(node),
       collectionTitle: collectionObject[node.collection_id] && collectionObject[node.collection_id].title,
@@ -105,6 +106,13 @@ export const indexQuery = graphql`
           }
           width
           height
+          localImage {
+            childImageSharp {
+              fluid {
+                ...GatsbyImageSharpFluid_noBase64
+              }
+            }
+          }
         }
       }
     }

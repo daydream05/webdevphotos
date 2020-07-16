@@ -36,6 +36,13 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-remote-images`,
+      options: {
+        nodeType: 'UnsplashPhoto',
+        imagePath: 'urls.regular',
+      },
+    },
+    {
       resolve: 'gatsby-source-sanity',
       options: {
         projectId,

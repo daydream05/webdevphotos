@@ -41,8 +41,9 @@ export const CollectionGrid = ({ collections }) => {
               padding: 0,
               display: `grid`,
               margin: 0,
-              gridGap: 4,
+              gridGap: 3,
               [mediaQueries.lg]: {
+                gridGap: 4,
                 gridTemplateColumns: `repeat(auto-fit, minmax(250px, 250px))`,
               },
             }}
@@ -62,11 +63,17 @@ export const CollectionGrid = ({ collections }) => {
                     px: 3,
                     fontWeight: `bold`,
                     letterSpacing: `1.2px`,
+                    lineHeight: 1,
+                    height: `80px`,
                   }}
                 >
-                  <span sx={{
-                    textAlign: `center`,
-                  }}>{item.title}</span>
+                  <span
+                    sx={{
+                      textAlign: `center`,
+                    }}
+                  >
+                    {item.title}
+                  </span>
                 </li>
               )
             })}
