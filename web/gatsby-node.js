@@ -23,13 +23,13 @@ const getUnsplashPhotos = async (gatsbyFunctions, collections) => {
 
   const photosPromises = collections.map((collection) => {
     return unsplash.collections
-      .getCollectionPhotos(collection, 1, 30)
+      .getCollectionPhotos(collection.id, 1, 30)
       .then(toJson)
       .then((photos) => {
         photos.map((photo) => {
           const nodeData = {
             ...photo,
-            collection_id: collection,
+            collection_id: collection.id,
           }
           const newNode = {
             ...nodeData,
@@ -49,25 +49,25 @@ const getUnsplashPhotos = async (gatsbyFunctions, collections) => {
       .catch((err) => console.error(err))
   })
 
-  await Promise.all(photosPromises) 
+  await Promise.all(photosPromises)
 }
 
-const getUnsplashCollections = async (gatsbyFunctions, collections) => {
+const getUnsplashCollections = async (gatsbyFunctions, user) => {
   const { actions, createContentDigest, createNodeId } = gatsbyFunctions
   const { createNode } = actions
 
-  const collectionsPromises = collections.map((collection) => {
-    return unsplash.collections
-      .getCollection(collection)
-      .then(toJson)
-      .then(coll => {
+  const collections = await unsplash.users
+    .collections(user)
+    .then(toJson)
+    .then((items) => {
+      const collections = items.map((item) => {
         const nodeData = {
-          ...coll,
+          ...item,
         }
         const newNode = {
           ...nodeData,
-          id: createNodeId(collection),
-          collection_id: collection,
+          id: createNodeId(item.id),
+          collection_id: item.id,
           parent: '__SOURCE__',
           children: [],
           internal: {
@@ -78,18 +78,20 @@ const getUnsplashCollections = async (gatsbyFunctions, collections) => {
         }
 
         createNode(newNode)
-        return true
+        return item
       })
-  })
 
-  await Promise.all(collectionsPromises)
+      return collections
+    })
+
+  return collections
 }
 
 exports.sourceNodes = async (gatsbyFunctions) => {
-  const collections = [`5184832`, `1978309`, `144033`]
+  // const collections = [`5184832`, `1978309`, `144033`]
   // const collections = [`8647859`]
 
-  await getUnsplashPhotos(gatsbyFunctions, collections)
-  await getUnsplashCollections(gatsbyFunctions, collections)
+  const collections = await getUnsplashCollections(gatsbyFunctions, 'webdevphotos')
 
+  await getUnsplashPhotos(gatsbyFunctions, collections)
 }
