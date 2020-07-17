@@ -23,13 +23,14 @@ const getUnsplashPhotos = async (gatsbyFunctions, collections) => {
 
   const photosPromises = collections.map((collection) => {
     return unsplash.collections
-      .getCollectionPhotos(collection.id, 1, 30)
+      .getCollectionPhotos(collection.collection_id, 1, 30)
       .then(toJson)
       .then((photos) => {
         photos.map((photo) => {
           const nodeData = {
             ...photo,
-            collection_id: collection.id,
+            collection_id: collection.collection_id,
+            collection: collection,
           }
           const newNode = {
             ...nodeData,
@@ -78,7 +79,7 @@ const getUnsplashCollections = async (gatsbyFunctions, user) => {
         }
 
         createNode(newNode)
-        return item
+        return newNode
       })
 
       return collections
