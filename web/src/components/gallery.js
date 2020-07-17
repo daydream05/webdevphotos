@@ -1,11 +1,10 @@
 import React from 'react'
-import Img from 'gatsby-image'
 import ReactPhotoGallery from 'react-photo-gallery'
 import { MdArrowDownward } from 'react-icons/md'
 
 /** @jsx jsx */
-import { Container, jsx, Styled } from "theme-ui"
-import { mediaQueries, breakpoints } from '../gatsby-plugin-theme-ui/tokens'
+import { jsx } from "theme-ui"
+import { breakpoints } from '../gatsby-plugin-theme-ui/tokens'
 
 export const Gallery = ({ photos, onClick }) => {
   return (
@@ -101,7 +100,11 @@ const Photo = ({ photo, margin, index, top, left, onClick }) => {
           },
         }}
       >
-        <Img fluid={photo.fluid} alt={photo.alt} onClick={handleClick} />
+        <img src={photo.urls.regular} alt={photo.alt} onClick={handleClick} sx={{
+          display: `block`,
+          width: `100%`,
+          height: `100%`,
+        }} />
       </button>
       <div
         className="tag"
