@@ -48,7 +48,7 @@ export const CollectionGrid = ({ collections, onSelect }) => {
                 '> *': {
                   mr: 3,
                   mb: 3,
-                }
+                },
               },
             }}
           >
@@ -76,6 +76,7 @@ export const CollectionGrid = ({ collections, onSelect }) => {
                   font: `inherit`,
                   width: `100%`,
                   height: `100%`,
+                  cursor: `pointer`,
                   py: 3,
                   px: 3,
                 }}
@@ -117,6 +118,7 @@ export const CollectionGrid = ({ collections, onSelect }) => {
                       font: `inherit`,
                       width: `100%`,
                       height: `100%`,
+                      cursor: `pointer`,
                       py: 3,
                       px: 3,
                     }}

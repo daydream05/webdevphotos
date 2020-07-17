@@ -60,6 +60,11 @@ const Photo = ({ photo, margin, index, top, left, onClick }) => {
         width: photo.width,
         position: `relative`,
         ':hover, :focus, :focus-within': {
+          '.tag': {
+            opacity: 1,
+            visibility: `visible`,
+            transition: `opacity .2s ease-in-out`,
+          },
           '.download': {
             visibility: `visible`,
             opacity: 1,
@@ -68,6 +73,7 @@ const Photo = ({ photo, margin, index, top, left, onClick }) => {
             '::after': {
               transition: `opacity .2s ease-in-out`,
               opacity: 0.8,
+              visibility: `visible`,
             },
           },
         },
@@ -97,6 +103,29 @@ const Photo = ({ photo, margin, index, top, left, onClick }) => {
       >
         <Img fluid={photo.fluid} alt={photo.alt} onClick={handleClick} />
       </button>
+      <div
+        className="tag"
+        sx={{
+          position: `absolute`,
+          top: 3,
+          right: 3,
+          opacity: 0,
+          visibility: `hidden`,
+          transition: `opacity .2s ease-in-out`,
+        }}
+      >
+        <span
+          sx={{
+            bg: `lightGray`,
+            px: 2,
+            fontWeight: `500`,
+            fontSize: 1,
+            borderRadius: 8,
+          }}
+        >
+          {photo.collectionTitle}
+        </span>
+      </div>
       <div
         className="download"
         sx={{
