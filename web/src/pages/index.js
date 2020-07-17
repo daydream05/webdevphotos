@@ -58,6 +58,7 @@ const IndexPage = ({ data }) => {
       height: node.height,
       full: node.urls.full,
       fluid: node.localImage.childImageSharp.fluid,
+      user: node.user,
       fileName: generateFileName(node),
       downloadUrl: generateDownloadUrl(node),
       collectionTitle: collectionObject[node.collection_id] && collectionObject[node.collection_id].title,
@@ -119,6 +120,9 @@ export const indexQuery = graphql`
           user {
             first_name
             last_name
+            profile_image {
+              small
+            }
           }
           urls {
             raw

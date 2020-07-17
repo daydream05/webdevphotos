@@ -49,6 +49,8 @@ const Photo = ({ photo, margin, index, top, left, onClick }) => {
     onClick(event, { photo, index })
   }
 
+  const fullName = photo.user.first_name + ` ${photo.user.last_name}`
+
   return (
     <figure
       sx={{
@@ -65,7 +67,7 @@ const Photo = ({ photo, margin, index, top, left, onClick }) => {
           '.button': {
             '::after': {
               transition: `opacity .2s ease-in-out`,
-              opacity: 0.4,
+              opacity: 0.8,
             },
           },
         },
@@ -120,14 +122,20 @@ const Photo = ({ photo, margin, index, top, left, onClick }) => {
             px: 3,
           }}
         >
-          <span
-            sx={{
-              color: `white`,
-              flex: 1,
-            }}
-          >
-            {photo.collectionTitle}
-          </span>
+          <div sx={{ flex: 1, display: `flex` }}>
+            <img
+              sx={{ borderRadius: `100%`, mr: 2 }}
+              src={photo.user.profile_image.small}
+              alt={fullName}
+            />
+            <span
+              sx={{
+                color: `white`,
+              }}
+            >
+              {fullName}
+            </span>
+          </div>
 
           <a
             sx={{
@@ -138,7 +146,12 @@ const Photo = ({ photo, margin, index, top, left, onClick }) => {
               justifyContent: `center`,
               alignItems: `center`,
               borderRadius: `4px`,
-              color: `inherit`,
+              color: `darkGrey`,
+              transition: `color .2s ease-in-out`,
+              ':hover': {
+                color: `inherit`,
+                transition: `color .2s ease-in-out`,
+              },
             }}
             title="Download photo"
             href={photo.downloadUrl}

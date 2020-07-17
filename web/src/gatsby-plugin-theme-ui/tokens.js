@@ -43,6 +43,7 @@ export const colors = {
   shadowGreen: "hsla(172, 23%, 69%, 0.2)",
   grey: "#d2d2d2",
   primary: "#FFC001",
+  darkGrey: "hsla(0, 0%, 13%, 0.6)",
   modes: {
     dark: {
       background: "#0A0A0A",
