@@ -119,7 +119,7 @@ const Photo = ({ photo, margin, index, top, left, onClick }) => {
             bg: `lightGray`,
             px: 2,
             fontWeight: `500`,
-            fontSize: 1,
+            fontSize: 0,
             borderRadius: 8,
           }}
         >
