@@ -12,15 +12,12 @@ export const Gallery = ({ photos, onClick }) => {
     <section
       sx={{
         minHeight: `50vh`,
-        maxWidth: `1440px`,
-        margin: `0 auto`,
       }}
     >
       <div
         sx={{
-          [mediaQueries.xl]: {
-            mx: -3,
-          },
+          maxWidth: breakpoints.xxxl,
+          margin: `0 auto`,
         }}
       >
         <ReactPhotoGallery

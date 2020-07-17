@@ -4,7 +4,7 @@ import React from 'react'
 import { Container, jsx, Styled } from "theme-ui"
 import { mediaQueries, breakpoints } from '../gatsby-plugin-theme-ui/tokens'
 
-export const CollectionGrid = ({ collections }) => {
+export const CollectionGrid = ({ collections, onSelect }) => {
   return (
     <section
       sx={{
@@ -43,11 +43,53 @@ export const CollectionGrid = ({ collections }) => {
               margin: 0,
               gridGap: 3,
               [mediaQueries.lg]: {
-                gridGap: 4,
-                gridTemplateColumns: `repeat(auto-fit, minmax(250px, 250px))`,
+                display: `flex`,
+                flexFlow: `wrap`,
+                '> *': {
+                  mr: 3,
+                  mb: 3,
+                }
               },
             }}
           >
+            <li
+              sx={{
+                bg: `black`,
+                color: `white`,
+                borderRadius: `16px`,
+                display: `flex`,
+                justifyContent: `center`,
+                alignItems: `center`,
+                fontWeight: `bold`,
+                letterSpacing: `1.2px`,
+                lineHeight: 1,
+                height: `80px`,
+                minWidth: `150px`,
+              }}
+            >
+              <button
+                sx={{
+                  padding: 0,
+                  border: `none`,
+                  background: `unset`,
+                  color: `inherit`,
+                  font: `inherit`,
+                  width: `100%`,
+                  height: `100%`,
+                  py: 3,
+                  px: 3,
+                }}
+                onClick={() => onSelect(null)}
+              >
+                <span
+                  sx={{
+                    textAlign: `center`,
+                  }}
+                >
+                  All
+                </span>
+              </button>
+            </li>
             {collections.map((item) => {
               return (
                 <li
@@ -59,21 +101,35 @@ export const CollectionGrid = ({ collections }) => {
                     display: `flex`,
                     justifyContent: `center`,
                     alignItems: `center`,
-                    py: 3,
-                    px: 3,
                     fontWeight: `bold`,
                     letterSpacing: `1.2px`,
                     lineHeight: 1,
                     height: `80px`,
+                    minWidth: `150px`,
                   }}
                 >
-                  <span
+                  <button
                     sx={{
-                      textAlign: `center`,
+                      padding: 0,
+                      border: `none`,
+                      background: `unset`,
+                      color: `inherit`,
+                      font: `inherit`,
+                      width: `100%`,
+                      height: `100%`,
+                      py: 3,
+                      px: 3,
                     }}
+                    onClick={() => onSelect(item.title.toLowerCase())}
                   >
-                    {item.title}
-                  </span>
+                    <span
+                      sx={{
+                        textAlign: `center`,
+                      }}
+                    >
+                      {item.title}
+                    </span>
+                  </button>
                 </li>
               )
             })}

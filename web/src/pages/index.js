@@ -1,6 +1,8 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { graphql } from 'gatsby'
 import Carousel, { Modal, ModalGateway } from 'react-images'
+
+import { useQueryParam, StringParam } from "use-query-params";
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -12,13 +14,12 @@ const IndexPage = ({ data }) => {
   const [currentImage, setCurrentImage] = useState(0)
   const [viewerIsOpen, setViewerIsOpen] = useState(false)
 
+  const [item, setItem] = useQueryParam("", StringParam)
+
   const openLightbox = useCallback((event, { photo, index }) => {
     setCurrentImage(index)
     setViewerIsOpen(true)
   }, [])
-
-  console.log(currentImage)
-  console.log(viewerIsOpen)
 
   const closeLightbox = () => {
     setCurrentImage(0)
@@ -38,6 +39,7 @@ const IndexPage = ({ data }) => {
 
     return acc
   }, {})
+
 
   const generateFileName = (node) => {
     return `${node.user.first_name}-${node.user.last_name}-${node.id}-unsplash`
@@ -60,13 +62,21 @@ const IndexPage = ({ data }) => {
       downloadUrl: generateDownloadUrl(node),
       collectionTitle: collectionObject[node.collection_id] && collectionObject[node.collection_id].title,
     }
+  }).filter((photo) => {
+    if(!item) {
+      return true
+    }
+    return item === photo.collectionTitle.toLowerCase()
   })
 
   return (
     <Layout>
       <SEO title="Home" />
       <HeroBasic />
-      <CollectionGrid collections={collections} />
+      <CollectionGrid
+        collections={collections}
+        onSelect={(collection) => setItem(collection)}
+      />
       <Gallery photos={photos} onClick={openLightbox} />
       <ModalGateway>
         {viewerIsOpen ? (
@@ -129,7 +139,7 @@ export const indexQuery = graphql`
         }
       }
     }
-    allUnsplashCollection {
+    allUnsplashCollection(sort: {fields: title}) {
       edges {
         node {
           id
