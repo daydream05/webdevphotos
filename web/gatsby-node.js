@@ -18,22 +18,27 @@ global.fetch = fetch
 const unsplash = new Unsplash({ accessKey: process.env.UNSPLASH_ACCESS_KEY })
 
 const getUnsplashPhotos = async (gatsbyFunctions, collections) => {
-  const { actions, createContentDigest } = gatsbyFunctions
+  const { actions, createContentDigest, createNodeId } = gatsbyFunctions
   const { createNode } = actions
 
   const photosPromises = collections.map((collection) => {
     return unsplash.collections
       .getCollectionPhotos(collection.collection_id, 1, 30)
       .then(toJson)
-      .then((photos) => {
-        photos.map((photo) => {
+      .then(async (photos) => {
+        const items = photos.map(async (photo) => {
+          const unsplashPhoto = await unsplash.photos.getPhoto(photo.id).then(toJson)
+
           const nodeData = {
-            ...photo,
+            ...unsplashPhoto,
+            photo_id: unsplashPhoto.id,
             collection_id: collection.collection_id,
             collection: collection,
           }
+
           const newNode = {
             ...nodeData,
+            id: createNodeId(photo.id),
             parent: '__SOURCE__',
             children: [],
             internal: {
@@ -46,6 +51,8 @@ const getUnsplashPhotos = async (gatsbyFunctions, collections) => {
           createNode(newNode)
           return true
         })
+
+        await Promise.all(items) 
       })
       .catch((err) => console.error(err))
   })
