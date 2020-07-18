@@ -8,8 +8,9 @@ export const Footer = (props) => {
   return (
     <footer
       sx={{
-        minHeight: `256px`,
-        bg: `black`,
+        my: 6,
+        minHeight: `300px`,
+        bg: `white`,
         position: `relative`,
         overflow: `hidden`,
       }}
@@ -26,15 +27,14 @@ export const Footer = (props) => {
         <div
           sx={{
             position: `absolute`,
-            right: 4,
+            right: 5,
             top: 5,
           }}
         >
           <span
             sx={{
               display: `block`,
-              color: `white`,
-              opacity: 0.1,
+              color: `black`,
               lineHeight: 0.9,
               fontWeight: `bold`,
               fontSize: 5,
@@ -48,11 +48,16 @@ export const Footer = (props) => {
         </div>
         <div
           sx={{
-            color: `white`,
+            color: `black`,
             zIndex: 1,
             position: `absolute`,
-            bottom: 4,
-            opacity: 0.75,
+            bottom: 5,
+            fontWeight: `bold`,
+            [mediaQueries.lg]: {
+              fontSize: `128px`,
+              fontSize: 5,
+              right: 5,
+            },
           }}
         >
           © {new Date().getFullYear()}, Built with
